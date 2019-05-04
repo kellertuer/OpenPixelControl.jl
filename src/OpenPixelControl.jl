@@ -6,10 +6,12 @@ client in [Julia](https://julialang.org).
 
 """
 module OpenPixelControl
+  using Sockets
+  using Colors
   export OpenPixelConnection
   export setInterpolation, setPixel, close
-  import Sockets: connect, close
-  import Colors: AbstractRGB
+  import Sockets: close
+  import Colors: AbstractRGB, red, green, blue
 """
     OpenPixelConnection
 
@@ -108,6 +110,6 @@ function setPixel( opc::OpenPixelConnection,
   data = Tuple([ ch, cmd, highByte, lowByte,
     Tuple( Iterators.flatten( collect(zip(redChannel,greenChannel,blueChannel))) )... ]
   )
-  write(opc.connection, Ref(data));
+  write(opc.connection, Ref(data))
 end
 end # module
